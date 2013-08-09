@@ -26,11 +26,11 @@
     $redis = new Redis();
     #connect, open 链接redis服务
     $redis->connect('127.0.0.1', 6379); 
-    $redis->auth('sinasec');
-    $redis->hLen('godns:hosts');
-    $redis->hKeys('godns:hosts');
-    $redis->hVals('godns:hosts');
-    $redis->hGetAll('godns:hosts');
+    $redis->auth('xxxxxxxx');
+    $redis->hLen('xxx:xxx');
+    $redis->hKeys('xxx:xxx');
+    $redis->hVals('xxx:xxx');
+    $redis->hGetAll('xxx:xxx');
 
 
 

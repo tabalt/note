@@ -1,5 +1,5 @@
 # MySql 
-@author `yanping9`
+@author `tabalt`
 
 ### 一、Mysql install
 
