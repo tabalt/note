@@ -17,6 +17,18 @@
 
 #### 3、安装 ruby
     
+    wget http://pyyaml.org/download/libyaml/yaml-0.1.4.tar.gz
+    tar xzvf yaml-0.1.4.tar.gz
+    cd yaml-0.1.4
+    ./configure --prefix=/usr/local
+    make
+    make install
+
+    # use rvm to install ruby
+    rvm install ruby-1.9.3-p0
+
+    # install ruby by source
+    # maybe need sudo
     wget http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p0.tar.gz
     tar -zxvf ruby-1.9.3-p0.tar.gz
     cd ruby-1.9.3-p0
