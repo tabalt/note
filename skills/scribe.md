@@ -5,6 +5,8 @@
 
 ----------
 
+centos 5.9&6.4安装通过
+
 #### 1、安装 gcc/gcc-c++ etc. 
 
     gcc –v # 需要版本 > 3.3.5
@@ -57,9 +59,13 @@
     ./bjam install
 
     # 配置环境变量
-    export BOOST_ROOT=/usr/include/boost/
-    # export LD_LIBRARY_PATH=/usr/include/boost/lib:/usr/lib:/usr/local/lib
+    vim /etc/profile #添加如下二行 
+        export BOOST_ROOT=/usr/include/boost/
+        #export LD_LIBRARY_PATH=/usr/include/boost/lib:/usr/lib:/usr/local/lib
+        export LD_LIBRARY_PATH=/usr/lib64:/usr/lib:/usr/local/lib
+    source /etc/profile
     ldconfig -v
+
 
 
 #### 6、安装 thrift
@@ -87,15 +93,84 @@
     unzip scribe-master.zip
     cd scribe-master
     ./bootstrap.sh
-    ./configure  --with-boost=/usr/include/boost
+    ./configure  --with-boost=/usr/include/boost --with-boost-filesystem=boost_filesystem 
     make
     make install
-
-#### 9、配置 scribe
 
     # test
     /usr/local/bin/scribed ~/scribe/scribe-master/examples/example1.conf
 
+#### 9、测试 scribe
 
-#### 10、scribe应用场景
+##### 1）
 
+
+
+##### 2） 多台服务器配置
+
+使用不同端口来模拟多台服务器
+
+             'client'                    'central'
+    ----------------------------     --------------------
+    | Port 1464                 |    | Port 1463         |
+    |        ----------------   |    | ----------------  |
+    |     -> | scribe server |--|--->| | scribe server | |
+    |        ----------------   |    | ----------------  |
+    |                |          |    |    |         |    |
+    |            temp file      |    |    |    temp file |
+    |---------------------------     |-------------------
+                                          |
+                                       -------------------
+                                       | /tmp/scribetest/ |
+                                       -------------------
+
+    # central服务器配置
+	# port 1463	
+    /usr/local/bin/scribed ~/scribe/scribe-master/examples/example2central.conf
+    
+    #client服务器配置
+	# port 1464
+    /usr/local/bin/scribed ~/scribe/scribe-master/examples/example2client.conf
+
+    # write log
+    echo "test message" | ./scribe_cat -h localhost:1464 test2
+    echo "this message will be ignored" | ./scribe_cat -h localhost:1464 ignore_me
+    echo "123:this message will be bucketed" | ./scribe_cat -h localhost:1464 bucket_me 
+
+    #Verify that the first message got logged:
+    cat /tmp/scribetest/test2/test2_current
+    #Verify that the third message got logged into a subdirectory:
+    cat /tmp/scribetest/bucket*/bucket_me_current 
+
+    #Check the status and counters of both instances:
+    ./scribe_ctrl status 1463
+    ./scribe_ctrl status 1464
+    ./scribe_ctrl counters 1463
+    ./scribe_ctrl counters 1464
+
+    #Shutdown both servers:
+    ./scribe_ctrl stop 1463
+    ./scribe_ctrl stop 1464  
+
+
+
+#### 10、配置 scribe
+
+    #后台启动
+    nohup /usr/local/bin/scribed /etc/scribecentral.conf
+    nohup /usr/local/bin/scribed /etc/scribeclient.conf
+
+
+#### 11、scribe 的应用
+
+    
+
+
+#### 12、errors
+
+    # ImportError: No module named scribe
+        vim /etc/profile
+            export PYTHONPATH=/usr/lib/python2.7/site-packages/
+        source /etc/profile
+    # configure: error: Could not link against  !
+        configure加上 --with-boost-filesystem=boost_filesystem
