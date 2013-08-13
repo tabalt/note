@@ -32,6 +32,8 @@ $cd thrift-0.9.0
 $./configure --with-boost=/usr/local/include/boost --with-php-config=/usr/bin/php-config #找到php-config文件位置
 $make
 $make install
+\#./configure后查看C++库安装提示,如果出现"Build TQTcpServer (Qt) .... : no ",这里可能导致安装scribe是报错(不行不行啊不行)
+\#安装apt-get install qt4-dev-tools
 </pre></code>
 
 * 安装 fb303
