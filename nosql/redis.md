@@ -24,6 +24,11 @@
         mv ../redis.conf /usr/local/redis/etc/redis.conf
         mv mkreleasehdr.sh redis-benchmark redis-check-aof redis-check-dump redis-cli redis-server /usr/local/redis/bin
 
+* 添加CentOS开机启动项 
+
+        vim /etc/init.d/rc.local
+            /usr/local/redis/bin/redis-server /usr/local/redis/etc/redis.conf
+
 * 启动redis服务
 
         /usr/local/redis/bin/redis-server /usr/local/redis/etc/redis.conf
@@ -31,7 +36,6 @@
 * 连接redis服务器
 
         /usr/local/redis/bin/redis-cli
-
 
 
 ### 二、redis配置详解
