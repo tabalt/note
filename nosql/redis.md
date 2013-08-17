@@ -6,7 +6,7 @@
 
 ----------
 
-源码安装
+* 源码安装
 
 
         #http://redis.io/download
@@ -17,18 +17,18 @@
         cd src
         make install
 
-移动文件 便于管理
+* 移动文件 便于管理
 
         mkdir -p /usr/local/redis/bin
         mkdir -p /usr/local/redis/etc
         mv ../redis.conf /usr/local/redis/etc/redis.conf
         mv mkreleasehdr.sh redis-benchmark redis-check-aof redis-check-dump redis-cli redis-server /usr/local/redis/bin
 
-启动redis服务
+* 启动redis服务
 
         /usr/local/redis/bin/redis-server /usr/local/redis/etc/redis.conf
 
-连接redis服务器
+* 连接redis服务器
 
         /usr/local/redis/bin/redis-cli
 
@@ -312,19 +312,19 @@
 
 ----------
 
-go语言中比较不错的redis驱动：https://github.com/hoisie/redis
+* go语言中比较不错的redis驱动：https://github.com/hoisie/redis
 
-    go get github.com/hoisie/redis
+        go get github.com/hoisie/redis
 
-demo代码
+* demo代码
 
-    package main
-    import "github.com/hoisie/redis"
-    func main() {
-        var client redis.Client
-        var key = "hello"
-        client.Set(key, []byte("world"))
-        val, _ := client.Get("hello")
-        println(key, string(val))
-    }
+        package main
+        import "github.com/hoisie/redis"
+        func main() {
+            var client redis.Client
+            var key = "hello"
+            client.Set(key, []byte("world"))
+            val, _ := client.Get("hello")
+            println(key, string(val))
+        }
 
