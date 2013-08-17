@@ -43,7 +43,7 @@
     /usr/local/mongodb/bin/mongo
 
 
-### 基本配置
+### 二、基本配置
     
 ----------
 
@@ -51,7 +51,7 @@
 
 
 
-### SHELL常用操作
+### 三、SHELL常用操作
 
 ----------
  
@@ -63,7 +63,7 @@
     # 增加用户
     db.addUser("tabalt ","123456",true)
     # 更改密码（为已经存在的用户更改密码） 
-    db.addUser("tabalt "," zhoulf "); 
+    db.addUser("tabalt "," tabalt "); 
     # 显示当前db状态 
     db.stats();
     # 当前db版本 
@@ -73,23 +73,23 @@
     # 查看当前db的链接机器地址 
     db.getMongo();
     # 简单插入数据 
-    db.user.insert({"fname":"zhoulf", "company":"navinfo"})
+    db.user.insert({"fname":"tabalt", "company":"tabalt"})
     # 循环插入数据 
     for (var i = 1; i <= 10; i++) {
-        db.user.save({ "fname" : "zhoulf"+i, "company" : "navinfo"+i });
+        db.user.save({ "fname" : "tabalt"+i, "company" : "tabalt"+i });
     }
     # 查询数据 
     db.user.find()
 
 
 
-### 高级指南
+### 四、高级指南
 
 ----------
 
     
 
 
-### 应用经验
+### 五、应用经验
 
 ----------
