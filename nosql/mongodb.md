@@ -51,35 +51,76 @@
 
 
 
-### 三、SHELL常用操作
+### 三、常用SHELL命令
 
 ----------
- 
 
-    # 查看数据库列表 
-    show dbs
-    # 切换/创建数据库(当创建一个集合(table)的时候会自动创建当前数据库)
-    use admin;
-    # 增加用户
-    db.addUser("tabalt ","123456",true)
-    # 更改密码（为已经存在的用户更改密码） 
-    db.addUser("tabalt "," tabalt "); 
-    # 显示当前db状态 
-    db.stats();
-    # 当前db版本 
-    db.version();
-    # 删除当前使用数据库 
-    db.dropDatabase();
-    # 查看当前db的链接机器地址 
-    db.getMongo();
-    # 简单插入数据 
-    db.user.insert({"fname":"tabalt", "company":"tabalt"})
-    # 循环插入数据 
-    for (var i = 1; i <= 10; i++) {
-        db.user.save({ "fname" : "tabalt"+i, "company" : "tabalt"+i });
-    }
-    # 查询数据 
-    db.user.find()
+* 基本命令
+
+        # 查看数据库列表 
+        show dbs
+        # 查看当前的数据库
+        db
+        # 切换/创建数据库(当创建一个集合(table)的时候会自动创建当前数据库)
+        use admin;
+        # 查看库中有哪些collection
+        show collections
+        # 查看支持的命令
+        help
+
+
+* 用户管理
+
+        # 增加用户
+        db.addUser("tabalt ","123456",true)
+        # 更改密码（为已经存在的用户更改密码） 
+        db.addUser("tabalt "," tabalt "); 
+        #查看用户列表 
+        db.system.users.find() 
+        #用户认证 
+        db.auth('admin','pwd') 
+        #删除用户 
+        db.removeUser('mongodb') 
+        #查看所有用户 
+        show users 
+
+* 数据库管理
+
+        #查看各collection的状态 
+        db.printCollectionStats() 
+        #查看主从复制状态 
+        db.printReplicationInfo() 
+        #修复数据库 
+        db.repairDatabase() 
+        #设置记录profiling，0=off 1=slow 2=all 
+        db.setProfilingLevel(1) 
+        #查看profiling 
+        show profile 
+        #拷贝数据库 
+        db.copyDatabase('mail_addr','mail_addr_tmp') 
+        #删除collection 
+        db.mail_addr.drop() 
+        #删除当前的数据库 
+        db.dropDatabase() 
+
+        # 显示当前db状态 
+        db.stats();
+        # 当前db版本 
+        db.version();
+        # 查看当前db的链接机器地址 
+        db.getMongo();
+        
+
+* 数据库操作
+
+        # 简单插入数据 
+        db.user.insert({"fname":"tabalt", "company":"tabalt"})
+        # 循环插入数据 
+        for (var i = 1; i <= 10; i++) {
+            db.user.save({ "fname" : "tabalt"+i, "company" : "tabalt"+i });
+        }
+        # 查询数据 
+        db.user.find()
 
 
 
