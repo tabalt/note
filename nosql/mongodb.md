@@ -128,7 +128,21 @@
 
 ----------
 
-    
+#### PHP操作Mongodb
+
+    try {
+        $conn = new Mongo("192.168.1.103:27017");
+    } catch (MongoConnectionException $e) {
+        echo $e->getMessage();
+    }
+
+    $db = $conn->selectDB("Dbname");
+    $collection = $db->selectCollection("CollectionName");
+    $result = $collection->find();
+    foreach ($result as $id => $value) {
+        echo "$id: "; print_r($value); echo "<br>";
+    }
+
 
 
 ### 五、应用经验
