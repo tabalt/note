@@ -47,8 +47,25 @@
     
 ----------
 
-    
+    # 添加超级管理员
+    use admin
+    db.addUser('user', 'password')
 
+    # 关闭mongodb
+    pkill mongod 
+
+    # 开启权限限制 启动mongodb 
+    /usr/local/mongodb/bin/mongod --dbpath=/data0/mongodb/data --logpath=/data0/mongodb/log/log.log -fork -auth 
+
+    # 使用用户名密码验证
+    use admin
+    db.auth('user', 'password')
+    use TestDb
+    show collections
+
+    # 添加TestDb的管理员
+    use TestDb
+    db.addUser('testuser', 'testpassword')
 
 
 ### 三、常用SHELL命令
