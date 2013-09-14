@@ -179,8 +179,8 @@
         cp /usr/local/apache2/bin/apachectl /etc/rc.d/init.d/httpd
         vi /etc/init.d/httpd
         #编辑文件 在#!/bin/sh下面添加以下两行
-        #chkconfig:2345 10 90 
-        #descrption:Activates/Deactivates Apache Web Server 
+            #chkconfig:2345 10 90 
+            #descrption:Activates/Deactivates Apache Web Server 
         chown daemon.daemon -R /usr/local/apache2/htdocs #更改目录所有者
         chmod 700 /usr/local/apache2/htdocs -R  #更改apache网站目录权限
         chkconfig httpd on #设置开机启动
@@ -188,4 +188,64 @@
         service httpd restart
 
     
+#### 7、安装php
+
+    tar -zvxf php-5.3.10.tar.gz
+    cd php-5.3.10  
+    mkdir -p /usr/local/php5  #建立php安装目录
+    ./configure  --prefix=/usr/local/php5 --with-config-file-path=/usr/local/php5/etc --with-apxs2=/usr/local/apache2/bin/apxs --with-mysql=/usr/local/mysql --with-mysqli=/usr/local/mysql/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock --with-gd --with-iconv --with-freetype --with-jpeg --with-png --with-zlib --with-libxml  --enable-xml --enable-discard-path --enable-magic-quotes --enable-safe-mode --enable-bcmath --enable-shmop --enable-sysvsem  --enable-inline-optimization --with-curlwrappers --enable-mbregex --enable-fastcgi --enable-force-cgi-redirect --enable-mbstring --enable-ftp --enable-gd-native-ttf --with-openssl --enable-pcntl --enable-sockets --with-xmlrpc --enable-zip --enable-soap --without-pear --with-gettext --with-mime-magic --enable-suhosin --enable-session --with-mcrypt  #配置
+    make   #编译
+    make install    #安装
+ 
+    mkdir /usr/local/php5/etc
+    cp php.ini-production /usr/local/php5/etc/php.ini  #复制php配置文件到安装目录
+    rm -rf /etc/php.ini #删除系统自带的配置文件
+    ln -s  /usr/local/php5/etc/php.ini   /etc/php.ini   #创建配置文件软链接
+
+    vi /usr/local/php5/etc/php.ini    #编辑
+        #找到：
+        ;open_basedir =  
+        #修改为：
+        open_basedir = .:/tmp/   #防止php木马跨站
+        #找到：disable_functions =
+        修改为：
+        disable_functions = passthru,exec,system,chroot,scandir,chgrp,chown,shell_exec,proc_open,proc_get_status,ini_alter,ini_alter,ini_restore,dl,openlog,syslog,readlink,symlink,popepassthru,stream_socket_server,escapeshellcmd,dll,popen,disk_free_space,checkdnsrr,checkdnsrr,getservbyname,getservbyport,disk_total_space,posix_ctermid,posix_get_last_error,posix_getcwd, posix_getegid,posix_geteuid,posix_getgid,posix_getgrgid,posix_getgrnam,posix_getgroups,posix_getlogin,posix_getpgid,posix_getpgrp,posix_getpid, posix_getppid,posix_getpwnam,posix_getpwuid, posix_getrlimit, posix_getsid,posix_getuid,posix_isatty, posix_kill,posix_mkfifo,posix_setegid,posix_seteuid,posix_setgid, posix_setpgid,posix_setsid,posix_setuid,posix_strerror,posix_times,posix_ttyname,posix_uname
+
+        #列出PHP可以禁用的函数，如果某些程序需要用到这个函数，可以删除，取消禁用。
+        #找到：
+        ;date.timezone =
+        #修改为：
+        date.timezone = PRC
+        #找到：
+        expose_php = On  
+        #修改为：
+        expose_php = OFF  #禁止显示php版本的信息
+        #找到：
+        display_errors = On 
+        #修改为：
+        display_errors = OFF  #关闭错误提示
+
+
+#### 8、配置apache支持php
+
+    vi /usr/local/apache2/conf/httpd.conf  #编辑apache配置文件 
+    在LoadModule php5_module        modules/libphp5.so这一行下面添加
+
+    AddType application/x-httpd-php .php
+    service httpd restart    #重启apache
+    service mysqld restart   #重启mysql
+
+
+#### 9、测试
+
+    cd  /usr/local/apache2/htdocs
+    vi index.php
+        <?php phpinfo(); ?> 
+
+    #确保改目录为以下权限 
+    chown daemon.daemon -R /usr/local/apache2/htdocs
+    chmod -R 700 /usr/local/apache2/htdocs 
+
+
+
     http://wenku.baidu.com/view/426bac19a216147917112865.html
