@@ -78,3 +78,10 @@
 
     rpm -qa #查看所有安装的软件包
     yum install 通过yum工具进行原件包的安装
+    
+
+### 文件
+
+--------
+
+    cat xx.txt | sort | uniq > xx2.txt #过滤重复
