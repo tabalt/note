@@ -11,6 +11,7 @@
         str="source string"
         md5_str=`echo -n $str | md5sum | cut -d ' ' -f1`
         echo $str
+        # http://blog.chinaunix.net/uid-20613650-id-3269470.html
 
 * 判断文件是否存在
 
@@ -76,3 +77,42 @@
         -x file exists and is executable by the current process. 
         -z string length is zero.       
 
+        # http://www.cnblogs.com/sunyubo/archive/2011/10/17/2282047.html
+
+* shell中if-elif-else用法
+
+        #!/bin/bash 
+
+        function myfun()
+        {
+            echo "myfun"
+            return 0
+        }
+
+        #判断标准输入中是否包含hello
+        #if后面接命令
+        if grep "hello" >/dev/null 2>&1 ;then
+            echo "include hello"
+        else
+            echo "don't include hello"
+        fi
+
+        #if后面接函数调用
+        if myfun ;then
+            echo "myfun success"
+        else
+            echo "myfun error"
+        fi
+
+        #if后面接test语句 
+        read T
+        if [ "$T" -lt "10" ] ;then 
+            echo " T < 10"
+        elif [ "$T" -le "20" -a "$T" -ge "10" ] ;then 
+            #[]中应该使用-a -o 而不是使用&& ||
+            echo " T >= 10 && T <= 20 "
+        else 
+            echo " T > 20"
+        fi
+
+        #http://ldl.wisplus.net/2011/04/24/shell%E4%B8%ADif-elif-else%E7%94%A8%E6%B3%95/
