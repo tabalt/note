@@ -97,13 +97,17 @@ centos 5.9&6.4安装通过
     make
     make install
 
-    # test
-    /usr/local/bin/scribed ~/scribe/scribe-master/examples/example1.conf
-
 #### 9、测试 scribe
 
-##### 1）
+##### 1）单服务器配置
 
+    /usr/local/bin/scribed ~/scribe/scribe-master/examples/example1.conf
+    echo "hello world" | ./scribe_cat test
+    cat /tmp/scribetest/test/test_current
+    ./scribe_ctrl status
+    ./scribe_ctrl counters
+    ./scribe_ctrl stop
+    
 
 
 ##### 2） 多台服务器配置
@@ -157,8 +161,11 @@ centos 5.9&6.4安装通过
 #### 10、配置 scribe
 
     #后台启动
-    nohup /usr/local/bin/scribed /etc/scribecentral.conf
-    nohup /usr/local/bin/scribed /etc/scribeclient.conf
+    nohup /usr/local/bin/scribed /etc/scribecentral.conf &
+    nohup /usr/local/bin/scribed /etc/scribeclient.conf &
+
+    ps | grep scribed
+    pkill scribed
 
 
 #### 11、scribe 的应用
